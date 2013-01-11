@@ -1,0 +1,12 @@
+{
+  "name": "GitHub Links",
+  "version": "0.2.4",
+  "description": "Fix links in GitHub readmes",
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*/*"],
+      "js": ["github-links.user.js"]
+    }
+  ],
+  "manifest_version": 2
+}
