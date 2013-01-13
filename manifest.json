@@ -1,6 +1,6 @@
 {
   "name": "GitHub Links",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Fix links in GitHub readmes",
   "content_scripts": [
     {

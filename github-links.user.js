@@ -1,7 +1,7 @@
 !function () {
 
     // vars and shit
-    var base, index, tree,
+    var base, branch, index, repo, tree,
         MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
     // first things first
@@ -11,17 +11,27 @@
         HTMLCollection.prototype.some = NodeList.prototype.some = Array.prototype.some;
         MutationObserver.prototype.watch = watch;
 
-        // populate base and tree variables
+        // populate repo, branch and tree variables
         document.getElementsByTagName('link').some(function (link) {
-            if ( link.rel === 'alternate' && link.type === 'application/atom+xml' )
-                base = rewrite(link.href.substr(0, link.href.indexOf('.atom')));
+            var path;
+
+            // swipe repo and branch from RSS link
+            if ( link.rel === 'alternate' && link.type === 'application/atom+xml' ) {
+                path = url.parse(link.href).pathname.split('/');
+                repo = path.slice(0, 3).join('/');
+                branch = path.slice(4).join('/').replace(/\.atom$/, '');
+            }
+
+            // swipe tree hash from permalink
             if ( link.rel === 'permalink' )
                 tree = link.href.split('/')[6];
-            return base && tree;
+
+            // got everything? lets go
+            return repo && tree;
         });
 
         // unsupported page
-        if ( ! base )
+        if ( ! repo )
             return;
 
         // couldn't find tree, try elsewhere (for edit pages)
@@ -84,6 +94,7 @@
 
         var xhr = new XMLHttpRequest();
 
+        // parse result into tree and callback
         xhr.onreadystatechange = function () {
             if ( xhr.readyState === 4 && xhr.status === 200 ) {
                 tree = JSON.parse(xhr.responseText).paths;
@@ -91,8 +102,24 @@
             }
         }
 
-        xhr.open('get', base[0] + 'tree-list/' + tree, true);
+        // go fetch daddy some files!
+        xhr.open('get', repo + '/tree-list/' + tree, true);
         xhr.send();
+    }
+
+    // make tree locations safe (trailing slash)
+    function location() {
+        var path = window.location.pathname.split('/');
+        if ( document.querySelector('#slider .frame').dataset.type === 'tree' ) {
+            // if branch not in location add it
+            if ( path.length < 5 )
+                path = [ repo, 'tree', branch ];
+
+            // trailing slash
+            if ( path[path.length - 1] !== '' )
+                path.push('');
+        }
+        return path.join('/');
     }
 
     // actually fix shit
@@ -102,6 +129,9 @@
         // nowhere to fix things
         if ( ! readme )
             return;
+
+        // ensure we're correctly based
+        rebase();
 
         // fix links
         readme.getElementsByTagName('a').forEach(function (a) {
@@ -121,67 +151,102 @@
         });
     }
 
-    // magical rewriting
-    function rewrite(uri, raw) {
-        // lookup pathless links
-        var url = search(uri),
-            parts = /([a-z0-9]+:\/\/(?:[^\/]+\/){3})([^\/]+)(\/.*?)(?:\.\.\.(\/.*))?$/.exec(url);
-
-        // return false on no change
-        function out(url) {
-            if ( uri === url )
-                return false;
-            return url;
+    // update base tag to ensure relative links work
+    function rebase() {
+        if ( ! base ) {
+            // look for base tag
+            base = document.getElementsByTagName('base')[0];
+            if ( ! base ) {
+                // fallback to creating one
+                base = document.createElement('base');
+                document.head.appendChild(base);
+            }
         }
 
+        // update location
+        base.href = location();
+    }
+
+    // magical rewriting
+    function rewrite(uri, raw) {
+        var hri = url.parse(uri), path;
+
+        // make returning easy
+        function out(hri) {
+            var tmp = url.build(hri);
+            if ( uri === tmp )
+                return false;
+            return tmp;
+        }
+
+        // go github or go home
+        if ( hri.host !== 'github.com' || ! hri.pathname.startsWith(repo) )
+            return false;
+
+        // lookup in index
+        hri = search(hri);
+
+        // path to parts and drop repo
+        path = hri.pathname.split('/').slice(3);
+
         // not valid, sack it off
-        if ( !parts ) return out(url);
+        if ( path.length < 0 )
+            return out(url);
 
-        parts.shift();
+        // correct resource type
+        path[0] = raw ? 'raw' : !path[path.length - 1] ? 'tree' : 'blob'
 
-        // triple dot rebase
-        if ( base && parts[3] !== undefined )
-            parts = base.concat(parts[3]);
+        // check for repo relative links
+        dots = path.indexOf('...');
 
-        // group parts 2 and up
-        parts[2] = parts.slice(2).join('');
-        parts = parts.slice(0, 3);
+        // if repo relative, rebase on branch
+        if ( ~dots )
+            path.splice(1, dots, branch);
 
-        // assume blob, unless we want raw explicitly
-        parts[1] = raw ? 'raw' : 'blob';
+        // set the repo
+        path.unshift(repo);
 
-        // trailing slash means it's really a tree
-        if ( /\/(?:\?|#|$)/.test(parts[2]) )
-            parts[1] = 'tree';
+        // update path
+        hri.pathname = path.join('/');
 
-        // need base to be an array, no joining
-        if ( ! base )
-            return parts;
-
-        // but normally we should join
-        return out(parts.join(''));
+        // done
+        return out(hri);
     }
 
     // lookup in index
-    function search(uri) {
-        if ( ! (base && index) )
-            return uri;
+    function search(hri) {
+        // nothing to look in
+        if ( ! index )
+            return hri;
 
-        // extract stem, strip stem from uri, validate uri is now pathless
-        var location = window.location.toString(),
-            pathless = /^([^\?\/#]+)?(\?[^#]+)?(#.+)?$/.exec(
-                uri.replace(location.substr(0, location.lastIndexOf('/') + 1), '')
-            );
+        // parse location, clone hri
+        var stem = url.parse(base.href),
+            tmp = Object.create(hri);
 
-        // lookup pathless urls
-        if ( pathless ) {
-            pathless.shift();
-            var name = pathless.shift();
-            if ( name in index )
-                uri = base.join('') + '/' + index[name] + pathless.join('');
-        }
+        // strip filename from stem
+        with ( stem )
+            pathname = pathname.substr(0, pathname.lastIndexOf('/') + 1);
 
-        return uri;
+        // nuke querystrings and fragments
+        stem.search = stem.hash = tmp.search = tmp.hash = '';
+
+        // prevent commit/tree/blob being a point of contention
+        [stem, tmp].forEach(function (hri) {
+            var tmp = hri.pathname.split('/');
+            tmp[3] = 'obj';
+            hri.pathname = tmp.join('/');
+        });
+
+        // strip stem out of temporary hri
+        tmp = url.build(tmp).replace(url.build(stem), '');
+
+        // no slashes? lookup in index, build agnostic url
+        if ( !~tmp.indexOf('/') )
+            if ( tmp in index )
+                hri.pathname = repo + '/blob/' + branch + '/' + index[tmp];
+
+        // found or not, return to sender
+        return hri;
     }
 
     // start observing childLists on element
@@ -195,6 +260,42 @@
             this.observe(el, { attributes: false, childList: true, characterData: false });
     }
 
+    // micro url building/parsing util
+    var url = (function () {
+        var attr = ['protocol', 'host', 'port', 'pathname', 'search', 'hash'], cache;
+
+        function anchor() {
+            if ( ! cache )
+                cache = document.createElement('a');
+            return cache;
+        }
+
+        function parse(uri) {
+            var el = anchor(),
+                out = {};
+            el.href = uri;
+            attr.forEach(function(prop) {
+                out[prop] = el[prop];
+            });
+            el.href = '/';
+            return out;
+        }
+
+        function build(uri) {
+            var el = anchor();
+            attr.forEach(function(prop) {
+                el[prop] = uri[prop] || '';
+            });
+            return el.href;
+        }
+
+        return {
+            build: build,
+            parse: parse
+        };
+    })();
+
+    // go go go
     init();
 
 }();
