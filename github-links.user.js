@@ -109,8 +109,9 @@
 
     // make tree locations safe (trailing slash)
     function location() {
-        var path = window.location.pathname.split('/');
-        if ( document.querySelector('#slider .frame').dataset.type === 'tree' ) {
+        var path = window.location.pathname.split('/'),
+            frame = document.querySelector('#slider .frame');
+        if ( frame && frame.dataset.type === 'tree' ) {
             // if branch not in location add it
             if ( path.length < 5 )
                 path = [ repo, 'tree', branch ];
