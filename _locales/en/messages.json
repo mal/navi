@@ -1,0 +1,8 @@
+{
+  "appName": {
+    "message": "GitHub Links"
+  },
+  "appDesc": {
+    "message": "Fix relative links in readmes and other text files on GitHub"
+  }
+}

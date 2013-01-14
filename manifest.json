@@ -1,12 +1,13 @@
 {
-  "name": "GitHub Links",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
   "version": "0.4.1",
-  "description": "Fix links in GitHub readmes",
   "content_scripts": [
     {
       "matches": ["https://github.com/*/*"],
       "js": ["github-links.user.js"]
     }
   ],
+  "default_locale": "en",
   "manifest_version": 2
 }
