@@ -1,15 +1,13 @@
 # Github Links
 
-A chrome extension (and greasemonkey userscript) to enable sane linking in markdown and other files rendered text files on Github.
+A chrome extension (and greasemonkey userscript) to enable sane linking in markdown and other rendered text files on Github.
 
-### tl;dr
-
-Fixes this long running Github feature request: [Branch relative links in markdown files](https://github.com/github/markup/issues/101)
+**tl;dr**: Addresses this long running Github feature request: [Branch relative links in markdown files](https://github.com/github/markup/issues/101)
 
 ## Install
 
-  * [Chrome](http://mal.github.com/github-links/github-links.crx)
-  * [Firefox](https://raw.github.com/mal/github-links/master/github-links.user.js)
+  * [Chrome](https://chrome.google.com/webstore/detail/github-links/ofifaalchickdncbbfendodoamlimlkm)
+  * [Firefox](https://raw.github.com/mal/github-links/master/src/github-links.user.js)
     (requires [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/))
 
 ## Problem
@@ -52,7 +50,7 @@ All the fixes described above are also applied to images, with the additional st
 
 ## Examples
 
-Confused? Hopefully this set of exmaples will help clear things up. Almost everything is intuitive, but documentation sometimes doesn't help it seem that way, oh well. Start off by imagining the following repository structure:
+Confused? Hopefully this set of exmaples will help clear things up. Almost everything is intuitive, but documentation sometimes doesn't help it seem that way, oh well. Start off by imagining the following repository structure hosted at `github.com/user/repo`:
 
 ```
 ./
@@ -68,32 +66,37 @@ Confused? Hopefully this set of exmaples will help clear things up. Almost every
    └─ vwx.md
 ```
 
-   | meaning
----|---------
+   ||
+---|------------------------------------
  ✓ | works
- ✓͙ | works when using extension
  ✗ | fails
- 🔒 | locked to `/user/repo` at `master`
+ ~ | locked to `/user/repo` at `master`
 
+  
 **From** `/user/repo/abc/def/ghi.md` **link to** `/user/repo/mno/pqr/stu.md`
 
-      🔒 `/user/repo/blob/master/mno/pqr/stu.md`
-    ✓ `../../mno/pqr/stu.md`
-    ✓͙ `.../mno/pqr/stu.md`
-    ✓͙ `stu.md`
-    
+ :octocat: | :bookmark: | href
+:---------:|:----------:|:-----
+ ~         |            | `/user/repo/blob/master/mno/pqr/stu.md`
+ ✓         | ✓          | `../../mno/pqr/stu.md`
+ ✗         | ✓          | `.../mno/pqr/stu.md`
+ ✗         | ✓          | `stu.md`
+
 **From** `/user/repo/mno/vwx.md` **link to** `/user/repo/mno/pqr/readme.md`
 
-      🔒 `/user/repo/blob/master/mno/pqr/readme.md`
-    ✓ `pqr/readme.md`
-    ✓͙ `.../mno/pqr/readme.md`
-    ✗ `readme.md` *not a unique filename, so points to* `/user/repo/mno/readme.md`
+ :octocat: | :bookmark: | href | notes
+:---------:|:----------:|:-----|:------
+ ~         |            | `/user/repo/blob/master/mno/pqr/readme.md`
+ ✓         | ✓          | `pqr/readme.md`
+ ✗         | ✓          | `.../mno/pqr/readme.md`
+ ✗         | ✗          | `readme.md` | *not a unique filename, so is document relative*
 
 **From** `/user/repo` **(main** `readme.md` **is rendered) link to** `/user/repo/mno/vwx.md`
 
-      🔒 `/user/repo/blob/master/mno/vwx.md`
-      🔒 `blob/master/mno/vwx.md` *only branch locked; also won't work at* `/user/repo/blob/master/readme.md`
-    ✓͙ `mno/vwx.md`
-    ✓͙ `.../mno/vwx.md`
-    ✓͙ `vwx.md`
-
+ :octocat: | :bookmark: | href | notes
+:---------:|:----------:|:-----|:------
+ ~         |            | `/user/repo/blob/master/mno/vwx.md`
+ ~         |            | `blob/master/mno/vwx.md` | *repo relative; but breaks on* `/user/repo/blob/master/readme.md`
+ ✗         | ✓          | `mno/vwx.md`
+ ✗         | ✓          | `.../mno/vwx.md`
+ ✗         | ✓          | `vwx.md`
