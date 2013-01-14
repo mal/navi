@@ -181,7 +181,7 @@
         }
 
         // go github or go home
-        if ( hri.host !== 'github.com' || ! hri.pathname.startsWith(repo) )
+        if ( hri.host !== 'github.com' || hri.pathname.indexOf(repo) )
             return false;
 
         // lookup in index
@@ -263,7 +263,8 @@
 
     // micro url building/parsing util
     var url = (function () {
-        var attr = ['protocol', 'host', 'port', 'pathname', 'search', 'hash'], cache;
+        var attr = ['protocol', 'host', 'pathname', 'search', 'hash'],
+            cache;
 
         function anchor() {
             if ( ! cache )
@@ -285,7 +286,7 @@
         function build(uri) {
             var el = anchor();
             attr.forEach(function(prop) {
-                el[prop] = uri[prop] || '';
+                el[prop] = uri[prop] || null;
             });
             return el.href;
         }
