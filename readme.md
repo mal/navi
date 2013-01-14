@@ -66,13 +66,15 @@ Confused? Hopefully this set of exmaples will help clear things up. Almost every
    └─ vwx.md
 ```
 
-   ||
----|------------------------------------
- ✓ | works
- ✗ | fails
- ~ | locked to `/user/repo` at `master`
+            | Legend
+:----------:|:--------------------------------------------
+ :octocat:  | **GitHub**
+ :bookmark: | **GitHub** with **GitHub Links**
+ ✓          | Correct
+ ✗          | Broken/Erroneous
+ ~          | Brittle (stuck on `/user/repo` at `master`)
 
-  
+
 **From** `/user/repo/abc/def/ghi.md` **link to** `/user/repo/mno/pqr/stu.md`
 
  :octocat: | :bookmark: | href
