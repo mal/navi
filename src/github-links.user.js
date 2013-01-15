@@ -1,3 +1,13 @@
+// ==UserScript==
+// @name        GitHub Links
+// @description Fix relative links in readmes and other text files on GitHub
+// @namespace   com.github.mal
+// @match       https://github.com/*/*
+// @version     0.4.1
+// @grant       none
+// @downloadURL https://raw.github.com/mal/github-links/master/src/github-links.user.js
+// ==/UserScript==
+
 !function () {
 
     // vars and shit
@@ -299,5 +309,4 @@
 
     // go go go
     init();
-
 }();
