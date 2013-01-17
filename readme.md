@@ -1,4 +1,4 @@
-# Github Links
+# Links for Github
 
 A chrome extension (and greasemonkey userscript) to enable sane linking in markdown and other rendered text files on Github.
 
@@ -69,7 +69,7 @@ Confused? Hopefully this set of exmaples will help clear things up. Almost every
             | Legend
 :----------:|:--------------------------------------------
  :octocat:  | **GitHub**
- :bookmark: | **GitHub** with **GitHub Links**
+ :bookmark: | **GitHub** with **Links**
  ✓          | Correct
  ✗          | Broken/Erroneous
  ~          | Brittle (stuck on `/user/repo` at `master`)

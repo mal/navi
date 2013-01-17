@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name        GitHub Links
+// @name        Links for GitHub
 // @description Fix relative links in readmes and other text files on GitHub
 // @namespace   com.github.mal
 // @match       https://github.com/*/*
-// @version     0.4.1
+// @version     0.4.2
 // @grant       none
 // @downloadURL https://raw.github.com/mal/github-links/master/src/github-links.user.js
 // ==/UserScript==

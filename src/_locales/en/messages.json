@@ -1,6 +1,6 @@
 {
   "appName": {
-    "message": "GitHub Links"
+    "message": "Links for GitHub"
   },
   "appDesc": {
     "message": "Fix relative links in readmes and other text files on GitHub"
