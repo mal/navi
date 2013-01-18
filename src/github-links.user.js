@@ -3,8 +3,9 @@
 // @description Fix relative links in readmes and other text files on GitHub
 // @namespace   com.github.mal
 // @match       https://github.com/*/*
-// @version     0.4.2
+// @version     0.4.3
 // @grant       none
+// @icon        https://raw.github.com/mal/github-links/master/src/icons/48.png
 // @downloadURL https://raw.github.com/mal/github-links/master/src/github-links.user.js
 // ==/UserScript==
 
