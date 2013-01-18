@@ -1,4 +1,4 @@
 #! /bin/sh
 
 cd src
-zip -r ../github-links.zip ./
+zip -r ../navi-for-github.zip ./

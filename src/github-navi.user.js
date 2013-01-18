@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name        Links for GitHub
+// @name        Navi for GitHub
 // @description Fix relative links in readmes and other text files on GitHub
 // @namespace   com.github.mal
 // @match       https://github.com/*/*
 // @version     0.4.4
 // @grant       none
-// @icon        https://raw.github.com/mal/github-links/master/src/icons/48.png
-// @downloadURL https://raw.github.com/mal/github-links/master/src/github-links.user.js
+// @icon        https://raw.github.com/mal/github-navi/master/src/icons/48.png
+// @downloadURL https://raw.github.com/mal/github-navi/master/src/github-navi.user.js
 // ==/UserScript==
 
 !function () {

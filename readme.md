@@ -1,4 +1,4 @@
-# Links for Github
+# Navi for Github
 
 A chrome extension (and greasemonkey userscript) to enable sane linking in markdown and other rendered text files on Github.
 
@@ -6,8 +6,8 @@ A chrome extension (and greasemonkey userscript) to enable sane linking in markd
 
 ## Install
 
-  * [Chrome](https://chrome.google.com/webstore/detail/github-links/ofifaalchickdncbbfendodoamlimlkm)
-  * [Firefox](https://raw.github.com/mal/github-links/master/src/github-links.user.js)
+  * [Chrome](https://chrome.google.com/webstore/detail/navi-for-github/ofifaalchickdncbbfendodoamlimlkm)
+  * [Firefox](https://raw.github.com/mal/github-navi/master/src/github-navi.user.js)
     (requires [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/))
 
 ## Problem
@@ -69,7 +69,7 @@ Confused? Hopefully this set of exmaples will help clear things up. Almost every
             | Legend
 :----------:|:--------------------------------------------
  :octocat:  | **GitHub**
- :bookmark: | **GitHub** with **Links**
+ :sparkles: | **GitHub** with **Navi**
  ✓          | Correct
  ✗          | Broken/Erroneous
  ~          | Brittle (stuck on `/user/repo` at `master`)
@@ -77,7 +77,7 @@ Confused? Hopefully this set of exmaples will help clear things up. Almost every
 
 **From** `/user/repo/abc/def/ghi.md` **link to** `/user/repo/mno/pqr/stu.md`
 
- :octocat: | :bookmark: | href
+ :octocat: | :sparkles: | href
 :---------:|:----------:|:-----
  ~         |            | `/user/repo/blob/master/mno/pqr/stu.md`
  ✓         | ✓          | `../../mno/pqr/stu.md`
@@ -86,7 +86,7 @@ Confused? Hopefully this set of exmaples will help clear things up. Almost every
 
 **From** `/user/repo/mno/vwx.md` **link to** `/user/repo/mno/pqr/readme.md`
 
- :octocat: | :bookmark: | href | notes
+ :octocat: | :sparkles: | href | notes
 :---------:|:----------:|:-----|:------
  ~         |            | `/user/repo/blob/master/mno/pqr/readme.md`
  ✓         | ✓          | `pqr/readme.md`
@@ -95,7 +95,7 @@ Confused? Hopefully this set of exmaples will help clear things up. Almost every
 
 **From** `/user/repo` **(main** `readme.md` **is rendered) link to** `/user/repo/mno/vwx.md`
 
- :octocat: | :bookmark: | href | notes
+ :octocat: | :sparkles: | href | notes
 :---------:|:----------:|:-----|:------
  ~         |            | `/user/repo/blob/master/mno/vwx.md`
  ~         |            | `blob/master/mno/vwx.md` | *repo relative; but breaks on* `/user/repo/blob/master/readme.md`

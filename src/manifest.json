@@ -5,7 +5,7 @@
   "content_scripts": [
     {
       "matches": ["https://github.com/*/*"],
-      "js": ["github-links.user.js"]
+      "js": ["github-navi.user.js"]
     }
   ],
   "default_locale": "en",
