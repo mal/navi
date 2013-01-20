@@ -1,14 +1,20 @@
 # Navi for Github
 
-A chrome extension (and greasemonkey userscript) to enable sane linking in markdown and other rendered text files on Github.
+Navi is a chrome extension (and greasemonkey userscript) to fix relative linking in markdown and other rendered text files on Github.
 
-**tl;dr**: Addresses this long running Github feature request: [Branch relative links in markdown files](https://github.com/github/markup/issues/101)
+It was inspired by this long running GitHub feature request: [Branch relative links in markdown files](https://github.com/github/markup/issues/101).
 
 ## Install
 
   * [Chrome](https://chrome.google.com/webstore/detail/navi-for-github/ofifaalchickdncbbfendodoamlimlkm)
   * [Firefox](https://raw.github.com/mal/github-navi/master/src/github-navi.user.js)
     (requires [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/))
+
+## Embed
+
+Obviously as an extension, this can only benefit people using it, so if you plan to use it with your repo, be sure and include a link so your users can install it!
+
+&lt; *install icon and link to follow* &gt;
 
 ## Problem
 
