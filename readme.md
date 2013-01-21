@@ -10,6 +10,18 @@ It was inspired by this long running GitHub feature request: [Branch relative li
   * [Firefox](https://raw.github.com/mal/navi/master/src/navi.user.js)
     (requires [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/))
 
+## Why?
+
+*tl;dr: We needed a wiki, but we wanted more visibility and we love Git and GitHub.*
+
+We'd already been using GitHub's markdown rendering for smaller projects such as coding standards. It was a good fit as it allowed our standards to be a dynamic document (with awesome syntax highlighting). All changes could be reviewed in pull requests sparking discussion (sometimes heated!) and ultimately helping reach a compromise everyone was happy with (or not).
+
+When we looked at how we used GitHub for this purpose vs. how we were using (or not using) our wiki which contained more day to day information about various processes and components, we could see a huge difference.
+
+While the wiki stagnated due to changing code, components and a general lack of visibility, the coding standards repository was getting updated not just with suggestions on style but with new languages, even if it was just a few lines at first, we were then having discussions and fleshing out these stubs as a team.
+
+The main thing preventing us from `git init`ing the wiki-based knowledge base and switching to GitHub was the interlinking we'd need to maintain between pages and the [problems](https://github.com/mal/navi/blob/master/design.md#problem) associated with it. And thus Navi was born.
+
 ## Embed
 
 Obviously as an extension, this can only benefit people using it, so if you plan to use it with your repo, be sure and include a link so your users can install it!
@@ -26,95 +38,6 @@ There are also several icons located in the `src/icons` directory that you can u
 ![Navi 48x48](https://raw.github.com/mal/navi/master/src/icons/48.png)
 ![Navi 16x16](https://raw.github.com/mal/navi/master/src/icons/16.png)
 
-## Problem
+## Design Document
 
-GitHub has long rendered various types of file within repositories; `README`, markdown files etc. However, due to the URL structure of these pages it has always been difficult to link to other rendered pages in a relative manner to form a cohesive experience.
-
-### Absolute URLs
-
-Typically users have linked these pages together using absolute URLs. This works very well when using a single branch on a single repository, however this is not so when trying to view pages on other branches, or in forked repositories, as all links point to the original fork's master branch.
-
-### Relative URLs
-
-An alternative is to use document relative URLs. The problem here can be seen most clearly on repository home pages (`/user/repo`), because these pages are also rendered on `/user/repo/blob/master/readme.md`. Any relative links will be broken on at least one of these two pages, which is far from ideal. This issue also occurs when viewing directories with and without a trailing `/`.
-
-In addition, because raw files are served from `raw.github.com` there is no way to relatively embed an image.
-
-## Solution
-
-This extension uses javascript applied by the browser to manipulate links it finds on rendered GitHub pages (including images and edit page previews) to do a number of things:
-
-### Correctly base links
-
-Manipulate the base of rendered hyperlinks, such that relative links behave as expected even in the case of `/user/repo` and `/user/repo/blob/master/readme.md`.
-
-### Allow branch relative URLs
-
-Just like `../` goes one directory up, this plugin allows the use of `.../` to go up to the root of the current branch. This feature is intended to help alleviate the need to combine multiple `../` which must be updated in the event of the origin file being moved to a different level.
-
-**WARNING**: *Using* `.../` *will break compatibility outside of GitHub*
-
-### Allow path agnostic URLs
-
-Best way to think of this feature is wiki style linking. If the destination is in the same directory, and the filename is unique within the current branch, the link will point to that file, even if it is not really in the current directory.
-
-See [example](#examples) below.
-
-### All of the above for images
-
-All the fixes described above are also applied to images, with the additional step of converting the URL to link to the correct place on `raw.github.com`. This allows the relative embedding of images!
-
-## Examples
-
-Confused? Hopefully this set of exmaples will help clear things up. Almost everything is intuitive, but documentation sometimes doesn't help it seem that way, oh well. Start off by imagining the following repository structure hosted at `github.com/user/repo`:
-
-```
-./
-├─ readme.md
-├─ abc/
-│  ├─ def/
-│  │  └─ ghi.md
-│  └─ jkl.md
-└─ mno/
-   ├─ pqr/
-   │  ├─ readme.md
-   │  └─ stu.md
-   └─ vwx.md
-```
-
-            | Legend
-:----------:|:--------------------------------------------
- :octocat:  | **GitHub**
- :sparkles: | **GitHub** with **Navi**
- ✓          | Correct
- ✗          | Broken/Erroneous
- ~          | Brittle (stuck on `/user/repo` at `master`)
-
-
-**From** `/user/repo/abc/def/ghi.md` **link to** `/user/repo/mno/pqr/stu.md`
-
- :octocat: | :sparkles: | href
-:---------:|:----------:|:-----
- ~         |            | `/user/repo/blob/master/mno/pqr/stu.md`
- ✓         | ✓          | `../../mno/pqr/stu.md`
- ✗         | ✓          | `.../mno/pqr/stu.md`
- ✗         | ✓          | `stu.md`
-
-**From** `/user/repo/mno/vwx.md` **link to** `/user/repo/mno/pqr/readme.md`
-
- :octocat: | :sparkles: | href | notes
-:---------:|:----------:|:-----|:------
- ~         |            | `/user/repo/blob/master/mno/pqr/readme.md`
- ✓         | ✓          | `pqr/readme.md`
- ✗         | ✓          | `.../mno/pqr/readme.md`
- ✗         | ✗          | `readme.md` | *not a unique filename, so is document relative*
-
-**From** `/user/repo` **(main** `readme.md` **is rendered) link to** `/user/repo/mno/vwx.md`
-
- :octocat: | :sparkles: | href | notes
-:---------:|:----------:|:-----|:------
- ~         |            | `/user/repo/blob/master/mno/vwx.md`
- ~         |            | `blob/master/mno/vwx.md` | *repo relative; but breaks on* `/user/repo/blob/master/readme.md`
- ✗         | ✓          | `mno/vwx.md`
- ✗         | ✓          | `.../mno/vwx.md`
- ✗         | ✓          | `vwx.md`
+Available [here](https://github.com/mal/navi/blob/master/design.md).
