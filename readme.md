@@ -14,7 +14,17 @@ It was inspired by this long running GitHub feature request: [Branch relative li
 
 Obviously as an extension, this can only benefit people using it, so if you plan to use it with your repo, be sure and include a link so your users can install it!
 
-&lt; *install icon and link to follow* &gt;
+Example: **Requires Navi** for [Chrome](https://chrome.google.com/webstore/detail/navi/ofifaalchickdncbbfendodoamlimlkm) or [Firefox](https://raw.github.com/mal/navi/master/src/navi.user.js)
+
+```markdown
+**Requires Navi** for [Chrome](https://chrome.google.com/webstore/detail/navi/ofifaalchickdncbbfendodoamlimlkm) or [Firefox](https://raw.github.com/mal/navi/master/src/navi.user.js)
+```
+
+There are also several icons located in the `src/icons` directory that you can use for this purpose if you wish:
+
+![Navi 128x128](https://raw.github.com/mal/navi/master/src/icons/128.png)
+![Navi 48x48](https://raw.github.com/mal/navi/master/src/icons/48.png)
+![Navi 16x16](https://raw.github.com/mal/navi/master/src/icons/16.png)
 
 ## Problem
 
