@@ -1,13 +1,13 @@
-# Navi for Github
+# Navi
 
-Navi is a chrome extension (and greasemonkey userscript) to fix relative linking in markdown and other rendered text files on Github.
+Navi is a chrome extension (and greasemonkey userscript) to fix relative linking in markdown and other rendered text files on GitHub.
 
 It was inspired by this long running GitHub feature request: [Branch relative links in markdown files](https://github.com/github/markup/issues/101).
 
 ## Install
 
-  * [Chrome](https://chrome.google.com/webstore/detail/navi-for-github/ofifaalchickdncbbfendodoamlimlkm)
-  * [Firefox](https://raw.github.com/mal/github-navi/master/src/github-navi.user.js)
+  * [Chrome](https://chrome.google.com/webstore/detail/navi/ofifaalchickdncbbfendodoamlimlkm)
+  * [Firefox](https://raw.github.com/mal/navi/master/src/navi.user.js)
     (requires [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/))
 
 ## Embed
@@ -18,7 +18,7 @@ Obviously as an extension, this can only benefit people using it, so if you plan
 
 ## Problem
 
-Github has long rendered various types of file within repositories; `README`, markdown files etc. However, due to the URL structure of these pages it has always been difficult to link to other rendered pages in a relative manner to form a cohesive experience.
+GitHub has long rendered various types of file within repositories; `README`, markdown files etc. However, due to the URL structure of these pages it has always been difficult to link to other rendered pages in a relative manner to form a cohesive experience.
 
 ### Absolute URLs
 
@@ -32,7 +32,7 @@ In addition, because raw files are served from `raw.github.com` there is no way 
 
 ## Solution
 
-This extension uses javascript applied by the browser to manipulate links it finds on rendered Github pages (including images and edit page previews) to do a number of things:
+This extension uses javascript applied by the browser to manipulate links it finds on rendered GitHub pages (including images and edit page previews) to do a number of things:
 
 ### Correctly base links
 
@@ -42,7 +42,7 @@ Manipulate the base of rendered hyperlinks, such that relative links behave as e
 
 Just like `../` goes one directory up, this plugin allows the use of `.../` to go up to the root of the current branch. This feature is intended to help alleviate the need to combine multiple `../` which must be updated in the event of the origin file being moved to a different level.
 
-**WARNING**: *Using* `.../` *will break compatibility outside of github*
+**WARNING**: *Using* `.../` *will break compatibility outside of GitHub*
 
 ### Allow path agnostic URLs
 
