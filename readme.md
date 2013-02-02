@@ -40,4 +40,4 @@ There are also several icons located in the `src/icons` directory that you can u
 
 ## Design Document
 
-Available [here](https://github.com/mal/navi/blob/master/design.md).
+Available [here](design.md).
