@@ -1,3 +1,7 @@
+_**MOTHBALLED** - MOST FUNCTIONALITY NATIVELY SUPPORTED BY GITHUB_
+
+---
+
 # Navi
 
 Navi is a chrome extension (and greasemonkey userscript) to fix relative linking in markdown and other rendered text files on GitHub.
